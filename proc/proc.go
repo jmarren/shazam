@@ -152,5 +152,4 @@ func IsAncestorOfThisProc(pid int) bool {
 		}
 	}
 	return false
-
 }

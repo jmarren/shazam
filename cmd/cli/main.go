@@ -43,11 +43,48 @@ func main() {
 	case "print-lineage":
 		lineage := proc.ThisProcLineage
 		slices.Reverse(lineage)
-		for _, proc := range lineage {
-			fmt.Printf("[ %d %s ] -> ", proc.Tgid(), proc.Name())
+		lines := [][]string{
+			{},
+			{},
+			{},
 		}
+		for _, proc := range lineage {
+			// cmd, _ := proc.Cmdline()
+			lines[0] = append(lines[0], fmt.Sprintf("%d", proc.Tgid()))
+			lines[1] = append(lines[1], proc.Name())
+			// lines[2] = append(lines[2], cmd)
+			// fmt.Printf("[ %s %d %s ] -> ", cmd, proc.Tgid(), proc.Name())
+		}
+
+		fmt.Println("_______________________________________________________________________________________________________________________")
+
+		for _, line := range lines {
+			for _, item := range line {
+				itemLen := len(item)
+				diff := 20 - itemLen
+				margin1 := repeat(" ", diff/2)
+				margin2 := repeat(" ", diff/2)
+				if diff%2 == 1 {
+					margin2 += " "
+				}
+
+				fmt.Printf("| %s%s%s ", margin1, item, margin2)
+			}
+			fmt.Println()
+		}
+
+		fmt.Printf("%v\n", lines)
+
 		fmt.Println()
 
 	}
 
+}
+
+func repeat(s string, i int) string {
+	str := ""
+	for range i {
+		str += s
+	}
+	return str
 }
